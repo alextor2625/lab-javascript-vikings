@@ -19,7 +19,10 @@ class Viking extends Soldier {
     constructor(name, health, strength){
         super(health, strength);//only in constructor
         this.name = name;
-       
+        
+    }
+    attack(){
+        return this.strength;
     }
     receiveDamage(damage){
         this.health -= damage;
@@ -33,20 +36,13 @@ class Viking extends Soldier {
     }
 }
 
-//extends Soldier = Vikins inherits some or all of Soldier class
+  let mark = new Soldier(20,9);
+  let sebastian = new Soldier(20, 8); 
+  let jennifer = new Viking('Jennifer', 20, 9);
 
-// Saxon
-class Saxon extends Soldier {
-    receiveDamage(damage){
-        this.health -= damage;
-        if(this.health > 0){
-            return `A Saxon has received ${damage} points of damage`;
-        } 
-        return `A Saxon has died in combat`;
+  console.log(jennifer.battleCry());
 
-    }
-}
-
-// War 
-class War {}
-
+//   console.log('Sebastian ',sebastian);
+//   console.log('Mark ',mark);
+//   sebastian.receiveDamage(mark.attack());
+//   console.log('Sebastian',sebastian);
