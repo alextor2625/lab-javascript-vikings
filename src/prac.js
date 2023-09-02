@@ -60,13 +60,27 @@ class War extends Soldier {
     }
     vikingAttack(){
         this.randomVikingIndex = Math.floor(Math.random()*this.vikingArmy.length); //index, e.g., 4th element of the vikingArmy array
-        this.randomVikingDamage = this.vikingArmy[this.randomVikingIndex].attack(); //extract vikingArmy[4]'s strength (user[i].strength) 
         this.randomSaxonIndex = Math.floor(Math.random()*this.saxonArmy.length);//index, e.g., 2nd element of the saxonArmy array
+        this.randomVikingDamage = this.vikingArmy[this.randomVikingIndex].attack(); //extract vikingArmy[4]'s strength (user[i].strength) 
         
-        this.saxonArmy[this.randomSaxonIndex].receiveDamage(this.randomVikingDamage);
-        
-
+        this.isSaxonAlive = this.saxonArmy[this.randomSaxonIndex].receiveDamage(this.randomVikingDamage);
+        if(this.isSaxonAlive ===`A Saxon has died in combat`){
+            this.saxonArmy.splice(this.randomSaxonIndex,1);
+        }
+        return this.isSaxonAlive;
         //random Saxon receiveDamage() equal to the strength of a random Viking
+    }
+
+    saxonAttack(){
+        this.randomSaxonIndex = Math.floor(Math.random()*this.saxonArmy.length);
+        this.randomVikingIndex = Math.floor(Math.random()*this.vikingArmy.length); //index, e.g., 4th element of the vikingArmy array
+        this.randomSaxonDamage = this.saxonArmy[this.randomSaxonIndex].attack();
+
+        this.isVikingAlive = this.vikingArmy[this.randomVikingIndex].receiveDamage(this.randomSaxonDamage);
+        console.log(this.isVikingAlive.includes('has died in act of combat'));
+        if(this.isVikingAlive.includes('has died in act of combat')){
+            this.vikingArmy.splice(this.randomVikingIndex,1);
+        }
     }
     diplay(){
         console.log('Viking ', this.vikingArmy[0]);
@@ -74,7 +88,7 @@ class War extends Soldier {
     }
 }
 
-let a = new Saxon(21,1);
+let a = new Saxon(21,20);
 let b = new Viking('Bebe',20,5);
 let w = new War();//War doesn't need properties, we only need the method
 
@@ -82,6 +96,6 @@ let w = new War();//War doesn't need properties, we only need the method
 w.addViking(b);
 w.addSaxon(a);
 
-w.vikingAttack();
+w.saxonAttack();
 
 w.diplay()

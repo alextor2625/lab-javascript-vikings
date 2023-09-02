@@ -60,21 +60,37 @@ class War extends Soldier {
     }
     vikingAttack(){
         this.randomVikingIndex = Math.floor(Math.random()*this.vikingArmy.length); //index, e.g., 4th element of the vikingArmy array
-        this.randomVikingDamage = this.vikingArmy[this.randomVikingIndex].attack(); //extract vikingArmy[4]'s strength (user[i].strength) 
         this.randomSaxonIndex = Math.floor(Math.random()*this.saxonArmy.length);//index, e.g., 2nd element of the saxonArmy array
+        this.randomVikingDamage = this.vikingArmy[this.randomVikingIndex].attack(); //extract vikingArmy[4]'s strength (user[i].strength) 
         
-        this.saxonArmy[this.randomSaxonIndex].receiveDamage(this.randomVikingDamage);
-        
-        this.saxonArmy.splice(this.randomSaxonIndex,1);
-        
-
+        this.isSaxonAlive = this.saxonArmy[this.randomSaxonIndex].receiveDamage(this.randomVikingDamage);
+        if(this.isSaxonAlive.includes('died')){
+            this.saxonArmy.splice(this.randomSaxonIndex,1);
+        }
+        return this.isSaxonAlive;
         //random Saxon receiveDamage() equal to the strength of a random Viking
     }
 
-    //this.vikingArmy[randomViking].attack(); 
-    //user[i].strength 
-    // saxonAttack()
-    // showStatus()
+    saxonAttack(){
+        this.randomSaxonIndex = Math.floor(Math.random()*this.saxonArmy.length);
+        this.randomVikingIndex = Math.floor(Math.random()*this.vikingArmy.length); //index, e.g., 4th element of the vikingArmy array
+        this.randomSaxonDamage = this.saxonArmy[this.randomSaxonIndex].attack();
+
+        this.isVikingAlive = this.vikingArmy[this.randomVikingIndex].receiveDamage(this.randomSaxonDamage);
+        if(this.isVikingAlive.includes('died')){
+            this.vikingArmy.splice(this.randomVikingIndex,1);
+        }
+        return this.isVikingAlive;
+    }
+    showStatus(){
+        if(this.saxonArmy.length === 0){
+            return "Vikings have won the war of the century!";
+        }
+        if (this.vikingArmy.length === 0){
+            return "Saxons have fought for their lives and survived another day...";
+        }
+        return "Vikings and Saxons are still in the thick of battle.";
+    }
 
 }
 
