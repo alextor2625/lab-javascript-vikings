@@ -19,10 +19,7 @@ class Viking extends Soldier {
     constructor(name, health, strength){
         super(health, strength);//only in constructor
         this.name = name;
-        
-    }
-    attack(){
-        return this.strength;
+       
     }
     receiveDamage(damage){
         this.health -= damage;
@@ -36,13 +33,55 @@ class Viking extends Soldier {
     }
 }
 
-  let mark = new Soldier(20,9);
-  let sebastian = new Soldier(20, 8); 
-  let jennifer = new Viking('Jennifer', 20, 9);
+//extends Soldier = Vikins inherits some or all of Soldier class
 
-  console.log(jennifer.battleCry());
+// Saxon
+class Saxon extends Soldier {
+    receiveDamage(damage){
+        this.health -= damage;
+        if(this.health > 0){
+            return `A Saxon has received ${damage} points of damage`;
+        } 
+        return `A Saxon has died in combat`;
 
-//   console.log('Sebastian ',sebastian);
-//   console.log('Mark ',mark);
-//   sebastian.receiveDamage(mark.attack());
-//   console.log('Sebastian',sebastian);
+    }
+}
+
+// War 
+class War extends Soldier {
+    vikingArmy = []; //the War's viking army
+    saxonArmy = []; //class objects - assign the variable; we're not setting up the key-value pair as we would with a classless object
+
+    addViking(Viking){
+        this.vikingArmy.push(Viking);
+    }
+    addSaxon(Saxon){
+        this.saxonArmy.push(Saxon);
+    }
+    vikingAttack(){
+        this.randomVikingIndex = Math.floor(Math.random()*this.vikingArmy.length); //index, e.g., 4th element of the vikingArmy array
+        this.randomVikingDamage = this.vikingArmy[this.randomVikingIndex].attack(); //extract vikingArmy[4]'s strength (user[i].strength) 
+        this.randomSaxonIndex = Math.floor(Math.random()*this.saxonArmy.length);//index, e.g., 2nd element of the saxonArmy array
+        
+        this.saxonArmy[this.randomSaxonIndex].receiveDamage(this.randomVikingDamage);
+        
+
+        //random Saxon receiveDamage() equal to the strength of a random Viking
+    }
+    diplay(){
+        console.log('Viking ', this.vikingArmy[0]);
+        console.log('Saxon ', this.saxonArmy[0]);
+    }
+}
+
+let a = new Saxon(21,1);
+let b = new Viking('Bebe',20,5);
+let w = new War();//War doesn't need properties, we only need the method
+
+
+w.addViking(b);
+w.addSaxon(a);
+
+w.vikingAttack();
+
+w.diplay()
